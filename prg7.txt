@@ -1,0 +1,39 @@
+ 7}
+import cv2
+
+def split_image(image_path):
+    # Read the image
+    image = cv2.imread(image_path)
+    
+    if image is None:
+        raise FileNotFoundError(f"Image at path '{image_path}' not found.")
+
+    # Get the dimensions of the image
+    height, width, _ = image.shape
+
+    # Split the image into four quadrants
+    top_left = image[0:height//2, 0:width//2]
+    top_right = image[0:height//2, width//2:width]
+    bottom_left = image[height//2:height, 0:width//2]
+    bottom_right = image[height//2:height, width//2:width]
+
+    return top_left, top_right, bottom_left, bottom_right
+
+def display_quadrants(top_left, top_right, bottom_left, bottom_right):
+    cv2.imshow('Top Left Quadrant', top_left)
+    cv2.imshow('Top Right Quadrant', top_right)
+    cv2.imshow('Bottom Left Quadrant', bottom_left)
+    cv2.imshow('Bottom Right Quadrant', bottom_right)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def main():
+    image_path = "bf.jpeg"  # Replace with your actual image path
+    try:
+        top_left, top_right, bottom_left, bottom_right = split_image(image_path)
+        display_quadrants(top_left, top_right, bottom_left, bottom_right)
+    except FileNotFoundError as e:
+        print(e)
+
+if __name__ == "__main__":
+    main()
